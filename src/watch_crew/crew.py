@@ -82,6 +82,17 @@ class WatchCrew():
         analyze = self.analyze_prices_task()
         report = self.generate_report_task()
 
+        # Interpolate site vars so crew is self-contained (no external inputs needed)
+        sites_searched = ", ".join(s['name'] for s in sites)
+        site_listing_sections = "\n\n".join(
+            f"## {s['name']} Listings\n"
+            f"- Table of cheapest new listings (price, shipping, total, seller, link)\n"
+            f"- Table of cheapest used listings"
+            for s in sites
+        )
+        analyze.description = analyze.description.replace('{sites_searched}', sites_searched)
+        report.description = report.description.replace('{site_listing_sections}', site_listing_sections)
+
         # Wire search results as context for downstream tasks
         analyze.context = search_tasks
         report.context = [analyze] + search_tasks
