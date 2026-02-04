@@ -1,7 +1,7 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool, SeleniumScrapingTool
-from .models import WatchSearchResults, WatchPriceAnalysis
+from watch_crew.models import WatchSearchResults, WatchPriceAnalysis
 
 
 @CrewBase
