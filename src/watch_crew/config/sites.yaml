@@ -1,0 +1,18 @@
+sites:
+  - key: chrono24
+    name: Chrono24
+    domain: chrono24.com
+    description: "the world's largest online marketplace for luxury watches"
+    search_specialty: >
+      You know how to search for specific models, filter by condition
+      (new vs pre-owned), and extract detailed listing information including
+      prices, shipping costs, and seller details.
+
+  - key: jomashop
+    name: Jomashop
+    domain: jomashop.com
+    description: "a major authorized watch retailer known for competitive pricing"
+    search_specialty: >
+      You know how to search their catalog, distinguish between new and
+      pre-owned inventory, and extract pricing details including any
+      discounts or promotions.

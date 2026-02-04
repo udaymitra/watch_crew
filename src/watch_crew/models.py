@@ -38,12 +38,16 @@ class ListingRecommendation(BaseModel):
     value_score: confloat(ge=0, le=100) = Field(description="Value score 0-100")
 
 
+class SiteStats(BaseModel):
+    site_key: str = Field(description="Site identifier (e.g. chrono24, jomashop)")
+    site_name: str = Field(description="Human-readable site name")
+    new_stats: Optional[PriceStats] = Field(description="New listing price stats", default=None)
+    used_stats: Optional[PriceStats] = Field(description="Used/pre-owned listing price stats", default=None)
+
+
 class WatchPriceAnalysis(BaseModel):
     watch_query: str = Field(description="Watch model analyzed")
-    chrono24_new_stats: Optional[PriceStats] = Field(description="Chrono24 new price stats", default=None)
-    chrono24_used_stats: Optional[PriceStats] = Field(description="Chrono24 used price stats", default=None)
-    jomashop_new_stats: Optional[PriceStats] = Field(description="Jomashop new price stats", default=None)
-    jomashop_used_stats: Optional[PriceStats] = Field(description="Jomashop used price stats", default=None)
+    site_statistics: List[SiteStats] = Field(description="Price statistics per site", default_factory=list)
     best_new_listing: ListingRecommendation = Field(description="Best value new listing across all sites")
     best_used_listing: ListingRecommendation = Field(description="Best value used listing across all sites")
     best_overall: ListingRecommendation = Field(description="Single best deal overall")

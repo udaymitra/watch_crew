@@ -1,47 +1,9 @@
-search_chrono24_task:
-  description: >
-    Search Chrono24.com for "{watch_query}" watches with shipping available
-    to US zip code {zip_code}.
-
-    Steps:
-    1. Search Google for new "{watch_query}" listings on chrono24.com
-       using queries like: {watch_query} new site:chrono24.com
-    2. Visit the Chrono24 search results and listing pages
-    3. Collect up to {max_results} NEW condition listings with:
-       title, price (USD), shipping cost, seller name, location, listing URL
-    4. Repeat the search for USED / PRE-OWNED condition listings
-    5. Sort each category by price ascending
-    6. Return the top {top_n} cheapest in each category
-
-  expected_output: >
-    Structured JSON matching the WatchSearchResults model with cheapest new
-    and used listings from Chrono24, including prices, shipping, and URLs.
-  agent: chrono24_scraper
-
-search_jomashop_task:
-  description: >
-    Search Jomashop.com for "{watch_query}" watches with shipping to US
-    zip code {zip_code}.
-
-    Steps:
-    1. Search Google for "{watch_query}" listings on jomashop.com
-       using queries like: {watch_query} site:jomashop.com
-    2. Visit Jomashop search results and product pages
-    3. Collect up to {max_results} NEW condition listings with:
-       title, price (USD), shipping cost, seller info, listing URL
-    4. Search for any PRE-OWNED listings of the same watch
-    5. Sort each category by price ascending
-    6. Return the top {top_n} cheapest in each category
-
-  expected_output: >
-    Structured JSON matching the WatchSearchResults model with cheapest new
-    and used listings from Jomashop, including prices, shipping, and URLs.
-  agent: jomashop_scraper
-
 analyze_prices_task:
   description: >
-    Analyze the watch search results from both Chrono24 and Jomashop for
+    Analyze the watch search results from all searched sites for
     "{watch_query}" and provide comprehensive pricing insights.
+
+    Sites searched: {sites_searched}
 
     Analysis steps:
     1. Price statistics per site per condition (min, max, median, average)
@@ -56,9 +18,8 @@ analyze_prices_task:
 
   expected_output: >
     Structured JSON matching the WatchPriceAnalysis model with complete
-    pricing statistics, recommendations, and market observations.
+    pricing statistics per site, recommendations, and market observations.
   agent: watch_analyst
-  context: [search_chrono24_task, search_jomashop_task]
 
 generate_report_task:
   description: >
@@ -69,16 +30,10 @@ generate_report_task:
     ## Search Summary
     - Watch searched, date, sites checked, total listings found
 
-    ## Chrono24 Listings
-    - Table of cheapest new listings (price, shipping, total, seller, link)
-    - Table of cheapest used listings
-
-    ## Jomashop Listings
-    - Table of cheapest new listings
-    - Table of cheapest used listings
+    {site_listing_sections}
 
     ## Cross-Site Price Comparison
-    - Side-by-side price stats (Chrono24 vs Jomashop)
+    - Side-by-side price stats across all sites
     - New vs used premium on each site
     - Which site offers better deals
 
@@ -89,7 +44,6 @@ generate_report_task:
     - New vs used recommendation
 
   expected_output: >
-    A markdown report with tables comparing watch prices across Chrono24
-    and Jomashop, with clear buying recommendations.
+    A markdown report with tables comparing watch prices across all searched
+    sites, with clear buying recommendations.
   agent: watch_analyst
-  context: [search_chrono24_task, search_jomashop_task, analyze_prices_task]

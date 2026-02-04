@@ -78,3 +78,8 @@ Required in `.env`:
 - No Docker setup — runs as a standalone CLI tool
 - Watch query and zip code are currently hardcoded in `main.py`
 - Extensible: adding a new seller = 1 new agent in agents.yaml + 1 new task in tasks.yaml + add to analyst context
+
+- In all interactions and commit messages, be consice and sacrifice grammar for sake of conciseness
+
+## Plans
+Write plan to a file before executing. At end of each plan, give me a list of unresolved questions if any.
