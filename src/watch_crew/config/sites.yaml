@@ -16,3 +16,36 @@ sites:
       You know how to search their catalog, distinguish between new and
       pre-owned inventory, and extract pricing details including any
       discounts or promotions.
+
+  - key: ashford
+    name: Ashford
+    domain: ashford.com
+    description: "an online retailer specializing in discounted luxury watches"
+    search_specialty: >
+      You know how to navigate their discounted luxury watch catalog,
+      identify current sale prices, and extract pricing details including
+      coupon codes or promotional discounts.
+
+  - key: watchmaxx
+    name: WatchMaxx
+    domain: watchmaxx.com
+    description: "an online watch retailer known for competitive pricing on authentic watches"
+    search_specialty: >
+      You know how to search their inventory, compare original vs sale
+      prices, and extract detailed pricing and availability information.
+
+  - key: creationwatches
+    name: Creation Watches
+    domain: creationwatches.com
+    description: "a Singapore-based online watch retailer with a wide range of brands"
+    search_specialty: >
+      You know how to search their extensive catalog spanning many brands,
+      find pricing in USD, and extract shipping cost details for US delivery.
+
+  - key: authenticwatches
+    name: Authentic Watches
+    domain: authenticwatches.com
+    description: "an authorized dealer offering discounted luxury watches"
+    search_specialty: >
+      You know how to search their authorized dealer inventory, identify
+      discounted prices versus MSRP, and extract warranty and shipping details.
