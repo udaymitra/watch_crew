@@ -1,3 +1,22 @@
+# {var} = site template vars (substituted in Python via str.format)
+# {{var}} = CrewAI runtime inputs (substituted at kickoff)
+search_site_task:
+  description: >
+    Search {name} ({domain}) for "{{watch_query}}" watches.
+    Find the cheapest new and used/pre-owned listings available for
+    shipping to US zip code {{zip_code}}.
+
+    Steps:
+    1. Use Google to search site:{domain} for the watch query
+    2. Scrape the top results to extract listing details
+    3. Find up to {{max_results}} total listings (new + used)
+    4. For each listing extract: title, price USD, shipping cost,
+       total cost, condition, seller, URL
+    5. Return the top {{top_n}} cheapest new and top {{top_n}}
+       cheapest used by total cost
+  expected_output: >
+    Structured JSON with cheapest new and used listings from {name}.
+
 analyze_prices_task:
   description: >
     Analyze the watch search results from all searched sites for

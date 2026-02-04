@@ -83,3 +83,4 @@ Required in `.env`:
 
 ## Plans
 Write plan to a file before executing. At end of each plan, give me a list of unresolved questions if any.
+Update plan progress tracker (checkboxes) in the plan md file after completing each phase/step.

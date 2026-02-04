@@ -2,9 +2,14 @@
 """Test script: run generate_report_task in isolation with pre-collected data."""
 import json
 import warnings
-from crewai import Agent, Crew, Process, Task, LLM
+from crewai import Agent, Crew, Process, Task
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+
+SITES = [
+    {'key': 'chrono24', 'name': 'Chrono24'},
+    {'key': 'jomashop', 'name': 'Jomashop'},
+]
 
 
 def main():
@@ -14,8 +19,16 @@ def main():
     with open('output/watch_price_analysis.json') as f:
         analysis_data = json.load(f)
 
-    chrono24_json = json.dumps(search_data['chrono24'], indent=2)
-    jomashop_json = json.dumps(search_data['jomashop'], indent=2)
+    data_sections = "\n\n".join(
+        f"--- {s['name']} Search Results ---\n{json.dumps(search_data[s['key']], indent=2)}"
+        for s in SITES if s['key'] in search_data
+    )
+    listing_sections = "\n\n".join(
+        f"## {s['name']} Listings\n"
+        f"- Table of cheapest new listings (price, shipping, total, seller, link)\n"
+        f"- Table of cheapest used listings"
+        for s in SITES if s['key'] in search_data
+    )
     analysis_json = json.dumps(analysis_data, indent=2)
 
     analyst = Agent(
@@ -26,18 +39,13 @@ def main():
             "trends and value assessment across multiple marketplaces."
         ),
         verbose=True,
-        llm=LLM("o1"),
     )
 
     task = Task(
         description=f"""Create a comprehensive markdown report for "H70405730" combining
 search results and pricing analysis. Format in markdown without code blocks.
 
---- Chrono24 Search Results ---
-{chrono24_json}
-
---- Jomashop Search Results ---
-{jomashop_json}
+{data_sections}
 
 --- Price Analysis ---
 {analysis_json}
@@ -46,16 +54,10 @@ Sections:
 ## Search Summary
 - Watch searched, date, sites checked, total listings found
 
-## Chrono24 Listings
-- Table of cheapest new listings (price, shipping, total, seller, link)
-- Table of cheapest used listings
-
-## Jomashop Listings
-- Table of cheapest new listings
-- Table of cheapest used listings
+{listing_sections}
 
 ## Cross-Site Price Comparison
-- Side-by-side price stats (Chrono24 vs Jomashop)
+- Side-by-side price stats across all sites
 - New vs used premium on each site
 - Which site offers better deals
 
@@ -65,8 +67,8 @@ Sections:
 - Best overall deal
 - New vs used recommendation""",
         expected_output=(
-            "A markdown report with tables comparing watch prices across Chrono24 "
-            "and Jomashop, with clear buying recommendations."
+            "A markdown report with tables comparing watch prices across all "
+            "searched sites, with clear buying recommendations."
         ),
         agent=analyst,
         output_file='output/watch_report.md',

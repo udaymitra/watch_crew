@@ -2,18 +2,26 @@
 """Test script: run analyze_prices_task in isolation with pre-collected search data."""
 import json
 import warnings
-from crewai import Agent, Crew, Process, Task, LLM
+from crewai import Agent, Crew, Process, Task
 from watch_crew.models import WatchPriceAnalysis
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+
+SITES = [
+    {'key': 'chrono24', 'name': 'Chrono24'},
+    {'key': 'jomashop', 'name': 'Jomashop'},
+]
 
 
 def main():
     with open('tests/test_input_combined.json') as f:
         data = json.load(f)
 
-    chrono24_json = json.dumps(data['chrono24'], indent=2)
-    jomashop_json = json.dumps(data['jomashop'], indent=2)
+    data_sections = "\n\n".join(
+        f"--- {s['name']} Search Results ---\n{json.dumps(data[s['key']], indent=2)}"
+        for s in SITES if s['key'] in data
+    )
+    sites_searched = ", ".join(s['name'] for s in SITES if s['key'] in data)
 
     analyst = Agent(
         role="Watch Market Pricing Analyst",
@@ -23,18 +31,15 @@ def main():
             "trends and value assessment across multiple marketplaces."
         ),
         verbose=True,
-        llm=LLM("o1"),
     )
 
     task = Task(
-        description=f"""Analyze the watch search results from both Chrono24 and Jomashop for
+        description=f"""Analyze the watch search results from all searched sites for
 "H70405730" and provide comprehensive pricing insights.
 
---- Chrono24 Search Results ---
-{chrono24_json}
+Sites searched: {sites_searched}
 
---- Jomashop Search Results ---
-{jomashop_json}
+{data_sections}
 
 Analysis steps:
 1. Price statistics per site per condition (min, max, median, average)
@@ -48,7 +53,7 @@ Analysis steps:
 9. Provide a clear new vs used recommendation with reasoning""",
         expected_output=(
             "Structured JSON matching the WatchPriceAnalysis model with complete "
-            "pricing statistics, recommendations, and market observations."
+            "pricing statistics per site, recommendations, and market observations."
         ),
         agent=analyst,
         output_file='output/watch_price_analysis.json',
