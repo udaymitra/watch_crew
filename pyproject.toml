@@ -6,6 +6,8 @@ authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "crewai[tools]>=0.95.0,<1.0.0",
+    "selenium>=4.40.0",
+    "webdriver-manager>=4.0.2",
 ]
 
 [project.scripts]
@@ -18,3 +20,7 @@ build-backend = "hatchling.build"
 
 [tool.crewai]
 type = "crew"
+
+[tool.pyright]
+# So "Go to Definition" and indexing resolve watch_crew to src/watch_crew
+extraPaths = ["src"]

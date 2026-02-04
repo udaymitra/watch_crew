@@ -67,6 +67,10 @@ Required in `.env`:
 - `src/watch_crew/models.py` — all data models (5 models: WatchListing, WatchSearchResults, PriceStats, ListingRecommendation, WatchPriceAnalysis)
 - `src/watch_crew/main.py` — entry point with hardcoded inputs (watch query, zip code)
 
+## Git Conventions
+
+- Do not include "Co-Authored-By" or any other attribution to Claude/AI in commit messages
+
 ## Notes
 
 - No test suite exists
