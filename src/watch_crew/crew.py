@@ -38,7 +38,7 @@ class WatchCrew():
             agent=agent,
             output_file=f"output/{site['key']}_results.json",
             output_pydantic=WatchSearchResults,
-            async_execution=True,
+            async_execution=False,
         )
 
     @agent

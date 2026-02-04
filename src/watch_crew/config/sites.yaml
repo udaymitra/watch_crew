@@ -17,15 +17,6 @@ sites:
       pre-owned inventory, and extract pricing details including any
       discounts or promotions.
 
-  - key: ashford
-    name: Ashford
-    domain: ashford.com
-    description: "an online retailer specializing in discounted luxury watches"
-    search_specialty: >
-      You know how to navigate their discounted luxury watch catalog,
-      identify current sale prices, and extract pricing details including
-      coupon codes or promotional discounts.
-
   - key: watchmaxx
     name: WatchMaxx
     domain: watchmaxx.com
