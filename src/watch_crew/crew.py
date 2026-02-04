@@ -16,7 +16,6 @@ class WatchCrew():
         return Agent(
             config=self.agents_config['chrono24_scraper'],
             verbose=True,
-            llm=LLM("o1"),
             tools=[SerperDevTool(), ScrapeWebsiteTool()]
         )
 
@@ -25,7 +24,6 @@ class WatchCrew():
         return Agent(
             config=self.agents_config['jomashop_scraper'],
             verbose=True,
-            llm=LLM("o1"),
             tools=[SerperDevTool(), ScrapeWebsiteTool()]
         )
 
@@ -34,7 +32,6 @@ class WatchCrew():
         return Agent(
             config=self.agents_config['watch_analyst'],
             verbose=True,
-            llm=LLM("o1")
         )
 
     @task
