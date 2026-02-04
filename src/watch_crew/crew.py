@@ -1,6 +1,6 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import SerperDevTool, ScrapeWebsiteTool, SeleniumScrapingTool
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 from watch_crew.models import WatchSearchResults, WatchPriceAnalysis
 
 
@@ -17,7 +17,7 @@ class WatchCrew():
             config=self.agents_config['chrono24_scraper'],
             verbose=True,
             llm=LLM("o1"),
-            tools=[SerperDevTool(), ScrapeWebsiteTool(), SeleniumScrapingTool()]
+            tools=[SerperDevTool(), ScrapeWebsiteTool()]
         )
 
     @agent
@@ -26,7 +26,7 @@ class WatchCrew():
             config=self.agents_config['jomashop_scraper'],
             verbose=True,
             llm=LLM("o1"),
-            tools=[SerperDevTool(), ScrapeWebsiteTool(), SeleniumScrapingTool()]
+            tools=[SerperDevTool(), ScrapeWebsiteTool()]
         )
 
     @agent
